@@ -16,7 +16,7 @@ const FloatingCartButton: React.FC<FloatingCartButtonProps> = ({ itemCount, onCa
     >
       <div className="relative">
         <ShoppingCart className="h-6 w-6" />
-        <span className="absolute -top-6 -right-6 bg-white text-razzle-dark text-[10px] rounded-full h-5 w-5 flex items-center justify-center font-bold border-2 border-razzle-gold shadow-lg">
+        <span className="absolute -top-2 -right-2 bg-white text-razzle-dark text-[10px] rounded-full h-5 w-5 flex items-center justify-center font-bold border-2 border-razzle-gold shadow-lg">
           {itemCount}
         </span>
       </div>

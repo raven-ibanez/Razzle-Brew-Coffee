@@ -70,13 +70,13 @@ const Menu: React.FC<MenuProps> = ({ menuItems, addToCart, cartItems, updateQuan
 
   return (
     <>
-      <main id="menu" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="text-center mb-20 pointer-events-none">
-          <h2 className="text-4xl font-brand font-bold text-white mb-6 logo-tracking animate-fade-in">
+      <main id="menu" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+        <div className="text-center mb-12 md:mb-20 pointer-events-none">
+          <h2 className="text-3xl md:text-4xl font-brand font-bold text-white mb-4 md:mb-6 logo-tracking animate-fade-in">
             THE SELECTION
           </h2>
-          <div className="h-1 w-16 bg-razzle-gold mx-auto rounded-full opacity-50 mb-8" />
-          <p className="text-gray-500 max-w-2xl mx-auto font-medium tracking-wide">
+          <div className="h-1 w-12 md:w-16 bg-razzle-gold mx-auto rounded-full opacity-50 mb-6 md:mb-8" />
+          <p className="text-sm md:text-base text-gray-500 max-w-2xl mx-auto font-medium tracking-wide">
             Discover our curated selection of
             premium coffee beverages and handcrafted treats.
           </p>
@@ -88,8 +88,8 @@ const Menu: React.FC<MenuProps> = ({ menuItems, addToCart, cartItems, updateQuan
           if (categoryItems.length === 0) return null;
 
           return (
-            <section key={category.id} id={category.id} className="mb-24 last:mb-0">
-              <div className="flex flex-col items-center mb-12">
+            <section key={category.id} id={category.id} className="mb-16 md:mb-24 last:mb-0">
+              <div className="flex flex-col items-center mb-8 md:mb-12">
                 <div className="flex items-center space-x-3 mb-2">
                   <h3 className="text-2xl font-brand font-bold text-razzle-gold uppercase tracking-[0.2em]">{category.name}</h3>
                 </div>

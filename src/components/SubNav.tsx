@@ -11,8 +11,11 @@ const SubNav: React.FC<SubNavProps> = ({ selectedCategory, onCategoryClick }) =>
 
   return (
     <div className="sticky top-20 z-40 bg-razzle-dark/95 backdrop-blur-md border-b border-white/5">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center space-x-6 overflow-x-auto py-4 scrollbar-hide">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        {/* Scroll Gradient Indicator */}
+        <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-razzle-dark to-transparent z-10 pointer-events-none md:hidden" />
+
+        <div className="flex items-center space-x-4 md:space-x-6 overflow-x-auto py-4 scrollbar-hide">
           {loading ? (
             <div className="flex space-x-6">
               {[1, 2, 3, 4, 5].map(i => (
@@ -23,7 +26,7 @@ const SubNav: React.FC<SubNavProps> = ({ selectedCategory, onCategoryClick }) =>
             <>
               <button
                 onClick={() => onCategoryClick('all')}
-                className={`px-4 py-2 rounded-lg text-xs font-bold tracking-widest uppercase transition-all duration-300 ${selectedCategory === 'all'
+                className={`px-5 py-2.5 min-h-[44px] rounded-xl text-xs font-bold tracking-widest uppercase transition-all duration-300 ${selectedCategory === 'all'
                   ? 'bg-razzle-gold text-razzle-dark shadow-lg shadow-razzle-gold/20'
                   : 'text-gray-500 hover:text-razzle-gold border border-transparent hover:border-razzle-gold/20'
                   }`}
@@ -34,7 +37,7 @@ const SubNav: React.FC<SubNavProps> = ({ selectedCategory, onCategoryClick }) =>
                 <button
                   key={c.id}
                   onClick={() => onCategoryClick(c.id)}
-                  className={`px-4 py-2 rounded-lg text-xs font-bold tracking-widest uppercase transition-all duration-300 whitespace-nowrap flex items-center space-x-2 ${selectedCategory === c.id
+                  className={`px-5 py-2.5 min-h-[44px] rounded-xl text-xs font-bold tracking-widest uppercase transition-all duration-300 whitespace-nowrap flex items-center space-x-2 ${selectedCategory === c.id
                     ? 'bg-razzle-gold text-razzle-dark shadow-lg shadow-razzle-gold/20'
                     : 'text-gray-500 hover:text-razzle-gold border border-transparent hover:border-razzle-gold/20'
                     }`}
