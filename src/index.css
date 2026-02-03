@@ -2,14 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Ramen Yard Custom Styles */
-/* Minimal helpers for ramen palette when needed outside tailwind tokens */
-.bg-ramen-cream { background-color: #FFF3E0; }
-.bg-ramen-beige { background-color: #F7E7CE; }
-.text-ramen-red { color: #D7263D; }
-.text-ramen-dark { color: #0B0A0A; }
-.border-ramen-sesame { border-color: #D1C7B7; }
-.ring-ramen-gold { --tw-ring-color: #E0A106; }
+/* Razzle Brew Custom Styles */
+body {
+  @apply bg-razzle-dark text-gray-300;
+  -webkit-font-smoothing: antialiased;
+}
+
+.text-razzle-gold { color: #D4C491; }
+.bg-razzle-dark { background-color: #0A0A0A; }
+.border-razzle-gold { border-color: rgba(212, 196, 145, 0.2); }
+
+/* Logo typography spacing */
+.logo-tracking {
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+}
+
+/* Glassmorphism for dark theme */
+.glass-panel {
+  @apply bg-razzle-surface/80 backdrop-blur-md border border-white/5;
+}
 
 /* Hide scrollbar for mobile nav */
 .scrollbar-hide {
@@ -24,15 +36,9 @@
 /* Image loading optimization */
 img {
   image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
 }
 
-/* Preload critical images */
-.preload-image {
-  content: '';
-  position: absolute;
-  left: -9999px;
-  top: -9999px;
-  width: 1px;
-  height: 1px;
+/* Golden gradient text */
+.text-gold-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-razzle-gold to-razzle-accent;
 }

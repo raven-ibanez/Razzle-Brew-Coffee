@@ -4,29 +4,31 @@ export default {
   theme: {
     extend: {
       colors: {
-        ramen: {
-          red: '#D7263D',
-          dark: '#0B0A0A',
-          charcoal: '#111113',
-          cream: '#FFF3E0',
-          beige: '#F7E7CE',
-          gold: '#E0A106',
-          sesame: '#D1C7B7',
-          seaweed: '#1F2937',
-          kimchi: '#B81D24'
+        razzle: {
+          dark: '#0A0A0A',
+          charcoal: '#141414',
+          surface: '#1E1E1E',
+          gold: '#D4C491', // Main gold/cream from logo
+          accent: '#A68B5B', // Deeper accent gold
+          muted: '#8A8A8A'
         }
       },
       fontFamily: {
-        'pretendard': ['Pretendard', 'system-ui', 'sans-serif'],
-        'noto-kr': ['Noto Serif KR', 'serif']
+        'brand': ['Inter', 'system-ui', 'sans-serif'], // Minimalist clean font
+        'serif': ['Noto Serif KR', 'serif']
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'slide-up': 'slideUp 0.4s ease-out',
         'bounce-gentle': 'bounceGentle 0.6s ease-out',
-        'scale-in': 'scaleIn 0.3s ease-out'
+        'scale-in': 'scaleIn 0.3s ease-out',
+        'reveal': 'reveal 0.8s cubic-bezier(0.77, 0, 0.175, 1)'
       },
       keyframes: {
+        reveal: {
+          '0%': { transform: 'scaleX(0)', transformOrigin: 'left' },
+          '100%': { transform: 'scaleX(1)', transformOrigin: 'left' }
+        },
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' }
