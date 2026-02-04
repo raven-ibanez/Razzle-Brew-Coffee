@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Minus, X, ShoppingCart } from 'lucide-react';
+import { Plus, Minus, X } from 'lucide-react';
 import { MenuItem, Variation, AddOn } from '../types';
 
 interface MenuItemCardProps {
@@ -83,32 +83,12 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
   return (
     <>
       <div className={`transition-all duration-300 flex items-start p-3 md:p-4 border-b border-white/5 bg-transparent ${!item.available ? 'opacity-50 grayscale' : ''}`}>
-        {/* Left: Image Container */}
-        <div className="relative w-20 h-20 md:w-32 md:h-32 flex-shrink-0 bg-razzle-charcoal rounded-xl md:rounded-2xl overflow-hidden mt-1 md:mt-0">
-          {item.image ? (
-            <img
-              src={item.image}
-              alt={item.name}
-              className="w-full h-full object-cover transition-transform duration-700"
-              loading="lazy"
-              decoding="async"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-              }}
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-razzle-surface">
-              <ShoppingCart className="w-6 h-6 md:w-8 md:h-8 text-white/10" />
-            </div>
-          )}
-        </div>
 
-        {/* Middle: Name, Description, and Price */}
-        <div className="ml-3 md:ml-6 flex-1 min-w-0">
+
+        {/* Product Name and Price */}
+        <div className="flex-1 min-w-0">
           <h4 className="text-sm md:text-lg font-brand font-bold text-white leading-tight uppercase whitespace-normal break-words">{item.name}</h4>
-          <p className="text-[10px] md:text-xs text-gray-500 mt-1 line-clamp-2 md:line-clamp-1 mb-2">
-            {!item.available ? 'Currently Unavailable' : item.description}
-          </p>
+
           <div className="flex items-center">
             {item.isOnDiscount && item.discountPrice ? (
               <div className="flex items-center space-x-2">
@@ -134,10 +114,10 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
           ) : quantity === 0 ? (
             <button
               onClick={handleAddToCart}
-              className="text-gray-400 hover:text-white transition-colors duration-300 font-bold text-[10px] md:text-sm tracking-widest uppercase flex items-center py-1 md:py-2"
+              className="bg-razzle-gold text-razzle-dark px-4 py-1.5 md:px-5 md:py-2 rounded-full hover:bg-white transition-all duration-300 font-bold text-[10px] md:text-xs tracking-widest uppercase flex items-center shadow-lg shadow-razzle-gold/10"
             >
               <span className="inline">Add</span>
-              <Plus className="h-4 w-4 ml-1" />
+              <Plus className="h-3 w-3 md:h-4 md:w-4 ml-1.5" />
             </button>
           ) : (
             <div className="flex flex-col items-center space-y-1 md:space-y-0 md:flex-row md:items-center md:space-x-3 bg-white/5 md:bg-white/5 rounded-full md:rounded-full p-1 border border-white/10">
