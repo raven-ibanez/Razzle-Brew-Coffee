@@ -82,25 +82,25 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
 
   return (
     <>
-      <div className={`transition-all duration-300 flex items-start p-3 md:p-4 border-b border-white/5 bg-transparent ${!item.available ? 'opacity-50 grayscale' : ''}`}>
+      <div className={`transition-all duration-300 flex items-center p-2 border-none bg-transparent ${!item.available ? 'opacity-50 grayscale' : ''}`}>
 
 
         {/* Product Name and Price */}
-        <div className="flex-1 min-w-0">
-          <h4 className="text-sm md:text-lg font-brand font-bold text-white leading-tight uppercase whitespace-normal break-words">{item.name}</h4>
+        <div className="flex-1 min-w-0 flex items-center justify-between mr-4 md:mr-8 border-b border-white/5 pb-1">
+          <h4 className="text-xs md:text-base font-brand font-bold text-white uppercase truncate mr-2">{item.name}</h4>
 
-          <div className="flex items-center">
+          <div className="flex-shrink-0 flex items-center">
             {item.isOnDiscount && item.discountPrice ? (
               <div className="flex items-center space-x-2">
-                <span className="text-base md:text-lg font-bold text-red-600 font-brand">
+                <span className="text-sm md:text-base font-bold text-white font-brand whitespace-nowrap">
                   ₱{item.discountPrice.toFixed(0)}
                 </span>
-                <span className="text-[10px] md:text-xs text-gray-500 line-through">
+                <span className="text-[8px] md:text-[10px] text-gray-500 line-through whitespace-nowrap">
                   ₱{item.basePrice.toFixed(0)}
                 </span>
               </div>
             ) : (
-              <span className="text-base md:text-lg font-bold text-red-600 font-brand">
+              <span className="text-sm md:text-base font-bold text-white font-brand whitespace-nowrap">
                 ₱{item.basePrice.toFixed(0)}
               </span>
             )}

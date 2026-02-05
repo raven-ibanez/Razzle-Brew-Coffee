@@ -12,66 +12,65 @@
 
 -- 1. Add Categories
 INSERT INTO categories (id, name, icon, sort_order, active) VALUES
-  ('espresso-americano', 'ESPRESSO (AMERICANO)', '☕', 10, true),
-  ('espresso-latte', 'ESPRESSO (LATTE)', '☕', 11, true)
-ON CONFLICT (id) DO NOTHING;
+  ('espresso', 'ESPRESSO', '☕', 10, true)
+ON CONFLICT (id) DO UPDATE SET name = 'ESPRESSO';
 
 -- 2. Add Americano Menu Items
 INSERT INTO menu_items (name, description, base_price, category, popular, available, image_url)
-SELECT 'Cafe Americano (No Syrup)', 'Rich espresso with hot water, perfect for a pure coffee experience.', 99, 'espresso-americano', true, true, 'https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=800'
+SELECT 'Cafe Americano (No Syrup)', 'Rich espresso with hot water, perfect for a pure coffee experience.', 99, 'espresso', true, true, 'https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=800'
 WHERE NOT EXISTS (SELECT 1 FROM menu_items WHERE name = 'Cafe Americano (No Syrup)');
 
 INSERT INTO menu_items (name, description, base_price, category, popular, available, image_url)
-SELECT 'Flavored Americano', 'Customizable Americano with your choice of flavor syrup.', 119, 'espresso-americano', false, true, 'https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=800'
+SELECT 'Flavored Americano', 'Customizable Americano with your choice of flavor syrup.', 119, 'espresso', false, true, 'https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=800'
 WHERE NOT EXISTS (SELECT 1 FROM menu_items WHERE name = 'Flavored Americano');
 
 -- 3. Add Latte Menu Items
 INSERT INTO menu_items (name, description, base_price, category, popular, available, image_url)
-SELECT 'Cafe Latte (No Syrup)', 'Smooth espresso balanced with steamed milk.', 129, 'espresso-latte', true, true, 'https://images.pexels.com/photos/302896/pexels-photo-302896.jpeg?auto=compress&cs=tinysrgb&w=800'
+SELECT 'Cafe Latte (No Syrup)', 'Smooth espresso balanced with steamed milk.', 129, 'espresso', true, true, 'https://images.pexels.com/photos/302896/pexels-photo-302896.jpeg?auto=compress&cs=tinysrgb&w=800'
 WHERE NOT EXISTS (SELECT 1 FROM menu_items WHERE name = 'Cafe Latte (No Syrup)');
 
 INSERT INTO menu_items (name, description, base_price, category, popular, available, image_url)
-SELECT 'Flavored Latte', 'Creamy latte infused with your favorite flavor syrup.', 129, 'espresso-latte', false, true, 'https://images.pexels.com/photos/302896/pexels-photo-302896.jpeg?auto=compress&cs=tinysrgb&w=800'
+SELECT 'Flavored Latte', 'Creamy latte infused with your favorite flavor syrup.', 129, 'espresso', false, true, 'https://images.pexels.com/photos/302896/pexels-photo-302896.jpeg?auto=compress&cs=tinysrgb&w=800'
 WHERE NOT EXISTS (SELECT 1 FROM menu_items WHERE name = 'Flavored Latte');
 
 INSERT INTO menu_items (name, description, base_price, category, popular, available, image_url)
-SELECT 'Dark Chocolate Mocha Latte', 'A rich blend of espresso, steamed milk, and dark chocolate.', 139, 'espresso-latte', true, true, 'https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=800'
+SELECT 'Dark Chocolate Mocha Latte', 'A rich blend of espresso, steamed milk, and dark chocolate.', 139, 'espresso', true, true, 'https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=800'
 WHERE NOT EXISTS (SELECT 1 FROM menu_items WHERE name = 'Dark Chocolate Mocha Latte');
 
 INSERT INTO menu_items (name, description, base_price, category, popular, available, image_url)
-SELECT 'White Chocolate Mocha Latte', 'Delicious combination of espresso, milk, and white chocolate.', 139, 'espresso-latte', false, true, 'https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=800'
+SELECT 'White Chocolate Mocha Latte', 'Delicious combination of espresso, milk, and white chocolate.', 139, 'espresso', false, true, 'https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=800'
 WHERE NOT EXISTS (SELECT 1 FROM menu_items WHERE name = 'White Chocolate Mocha Latte');
 
 INSERT INTO menu_items (name, description, base_price, category, popular, available, image_url)
-SELECT 'Peppermint Mocha Latte', 'Festive mocha with a refreshing hint of peppermint.', 139, 'espresso-latte', false, true, 'https://images.pexels.com/photos/302896/pexels-photo-302896.jpeg?auto=compress&cs=tinysrgb&w=800'
+SELECT 'Peppermint Mocha Latte', 'Festive mocha with a refreshing hint of peppermint.', 139, 'espresso', false, true, 'https://images.pexels.com/photos/302896/pexels-photo-302896.jpeg?auto=compress&cs=tinysrgb&w=800'
 WHERE NOT EXISTS (SELECT 1 FROM menu_items WHERE name = 'Peppermint Mocha Latte');
 
 INSERT INTO menu_items (name, description, base_price, category, popular, available, image_url)
-SELECT 'Caramel Macchiato', 'Espresso marked with milk and finished with caramel drizzle.', 149, 'espresso-latte', true, true, 'https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=800'
+SELECT 'Caramel Macchiato', 'Espresso marked with milk and finished with caramel drizzle.', 149, 'espresso', true, true, 'https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=800'
 WHERE NOT EXISTS (SELECT 1 FROM menu_items WHERE name = 'Caramel Macchiato');
 
 INSERT INTO menu_items (name, description, base_price, category, popular, available, image_url)
-SELECT 'Peppermint Dark Choco Mocha Latte', 'Indulgent dark chocolate mocha with peppermint twist.', 149, 'espresso-latte', false, true, 'https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=800'
+SELECT 'Peppermint Dark Choco Mocha Latte', 'Indulgent dark chocolate mocha with peppermint twist.', 149, 'espresso', false, true, 'https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=800'
 WHERE NOT EXISTS (SELECT 1 FROM menu_items WHERE name = 'Peppermint Dark Choco Mocha Latte');
 
 INSERT INTO menu_items (name, description, base_price, category, popular, available, image_url)
-SELECT 'Biscoff Coffee Latte', 'Unique latte featuring the spiced flavor of Biscoff cookies.', 169, 'espresso-latte', true, true, 'https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=800'
+SELECT 'Biscoff Coffee Latte', 'Unique latte featuring the spiced flavor of Biscoff cookies.', 169, 'espresso', true, true, 'https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=800'
 WHERE NOT EXISTS (SELECT 1 FROM menu_items WHERE name = 'Biscoff Coffee Latte');
 
 INSERT INTO menu_items (name, description, base_price, category, popular, available, image_url)
-SELECT 'Matcha Espresso Latte', 'Perfect balance of earthy matcha and bold espresso.', 169, 'espresso-latte', false, true, 'https://images.pexels.com/photos/302896/pexels-photo-302896.jpeg?auto=compress&cs=tinysrgb&w=800'
+SELECT 'Matcha Espresso Latte', 'Perfect balance of earthy matcha and bold espresso.', 169, 'espresso', false, true, 'https://images.pexels.com/photos/302896/pexels-photo-302896.jpeg?auto=compress&cs=tinysrgb&w=800'
 WHERE NOT EXISTS (SELECT 1 FROM menu_items WHERE name = 'Matcha Espresso Latte');
 
 INSERT INTO menu_items (name, description, base_price, category, popular, available, image_url)
-SELECT 'Ube Espresso Latte', 'Creamy latte with the vibrant flavor of Filipino purple yam.', 169, 'espresso-latte', false, true, 'https://images.pexels.com/photos/302896/pexels-photo-302896.jpeg?auto=compress&cs=tinysrgb&w=800'
+SELECT 'Ube Espresso Latte', 'Creamy latte with the vibrant flavor of Filipino purple yam.', 169, 'espresso', false, true, 'https://images.pexels.com/photos/302896/pexels-photo-302896.jpeg?auto=compress&cs=tinysrgb&w=800'
 WHERE NOT EXISTS (SELECT 1 FROM menu_items WHERE name = 'Ube Espresso Latte');
 
 INSERT INTO menu_items (name, description, base_price, category, popular, available, image_url)
-SELECT 'Coffee Jelly Latte', 'Latte served with chewy, delicious coffee jelly.', 179, 'espresso-latte', false, true, 'https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=800'
+SELECT 'Coffee Jelly Latte', 'Latte served with chewy, delicious coffee jelly.', 179, 'espresso', false, true, 'https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=800'
 WHERE NOT EXISTS (SELECT 1 FROM menu_items WHERE name = 'Coffee Jelly Latte');
 
 INSERT INTO menu_items (name, description, base_price, category, popular, available, image_url)
-SELECT 'Sea Salt Latte', 'Espresso and milk with a touch of savory sea salt cream.', 179, 'espresso-latte', false, true, 'https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=800'
+SELECT 'Sea Salt Latte', 'Espresso and milk with a touch of savory sea salt cream.', 179, 'espresso', false, true, 'https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=800'
 WHERE NOT EXISTS (SELECT 1 FROM menu_items WHERE name = 'Sea Salt Latte');
 
 -- 4. Add variations for Americano items
@@ -170,7 +169,7 @@ CROSS JOIN (
     ('Oat Milk', 50),
     ('Whip Cream', 50)
 ) as addon(name, price)
-WHERE menu_items.category IN ('espresso-americano', 'espresso-latte')
+WHERE menu_items.category IN ('espresso')
 ON CONFLICT DO NOTHING;
 -- 9. Add Additional Categories
 INSERT INTO categories (id, name, icon, sort_order, active) VALUES
