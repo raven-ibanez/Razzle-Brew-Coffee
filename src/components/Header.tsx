@@ -20,13 +20,13 @@ const Header: React.FC<HeaderProps> = ({ cartItemsCount, onCartClick, onMenuClic
             className="flex items-center space-x-3 text-razzle-gold hover:text-white transition-all duration-300 group"
           >
             {loading ? (
-              <div className="w-12 h-12 bg-razzle-surface rounded-lg animate-pulse" />
+              <div className="w-16 h-16 bg-razzle-surface rounded-lg animate-pulse" />
             ) : (
               <div className="relative overflow-hidden rounded-lg ring-1 ring-razzle-gold/20 group-hover:ring-razzle-gold/50 transition-all">
                 <img
                   src={siteSettings?.site_logo || "/logo.jpg"}
                   alt={siteSettings?.site_name || "Razzle Brew"}
-                  className="w-12 h-12 object-cover"
+                  className="w-16 h-16 object-cover"
                   onError={(e) => {
                     e.currentTarget.src = "/logo.jpg";
                   }}
