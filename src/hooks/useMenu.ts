@@ -10,7 +10,7 @@ export const useMenu = () => {
   const fetchMenuItems = async () => {
     try {
       setLoading(true);
-      
+
       // Fetch menu items with their variations and add-ons
       const { data: items, error: itemsError } = await supabase
         .from('menu_items')
@@ -19,7 +19,7 @@ export const useMenu = () => {
           variations (*),
           add_ons (*)
         `)
-        .order('created_at', { ascending: true });
+        .order('base_price', { ascending: true });
 
       if (itemsError) throw itemsError;
 
@@ -28,11 +28,11 @@ export const useMenu = () => {
         const now = new Date();
         const discountStart = item.discount_start_date ? new Date(item.discount_start_date) : null;
         const discountEnd = item.discount_end_date ? new Date(item.discount_end_date) : null;
-        
-        const isDiscountActive = item.discount_active && 
-          (!discountStart || now >= discountStart) && 
+
+        const isDiscountActive = item.discount_active &&
+          (!discountStart || now >= discountStart) &&
           (!discountEnd || now <= discountEnd);
-        
+
         // Calculate effective price
         const effectivePrice = isDiscountActive && item.discount_price ? item.discount_price : item.base_price;
 
@@ -51,12 +51,27 @@ export const useMenu = () => {
           discountActive: item.discount_active || false,
           effectivePrice,
           isOnDiscount: isDiscountActive,
-          variations: item.variations?.map(v => ({
+          variations: item.variations?.map((v: any) => ({
             id: v.id,
             name: v.name,
             price: v.price
-          })) || [],
-          addOns: item.add_ons?.map(a => ({
+          })).sort((a: any, b: any) => {
+            const sizePriority: Record<string, number> = {
+              'No Fries': 0,
+              'Hot': 1,
+              'Medium': 2,
+              'Regular': 3,
+              'With Regular Fries': 4,
+              'Large': 5,
+              'Titan': 6,
+              'Sharing': 7
+            };
+            const priorityA = sizePriority[a.name] ?? 99;
+            const priorityB = sizePriority[b.name] ?? 99;
+            if (priorityA !== priorityB) return priorityA - priorityB;
+            return a.price - b.price;
+          }) || [],
+          addOns: item.add_ons?.map((a: any) => ({
             id: a.id,
             name: a.name,
             price: a.price,
@@ -64,6 +79,9 @@ export const useMenu = () => {
           })) || []
         };
       }) || [];
+
+      // Sort items by effective price (lowest to highest)
+      formattedItems.sort((a, b) => (a.effectivePrice || 0) - (b.effectivePrice || 0));
 
       setMenuItems(formattedItems);
       setError(null);

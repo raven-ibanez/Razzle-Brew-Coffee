@@ -492,7 +492,7 @@ const AdminDashboard: React.FC = () => {
                     value={variation.name}
                     onChange={(e) => updateVariation(index, 'name', e.target.value)}
                     className="flex-1 px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                    placeholder="Variation name (e.g., Small, Medium, Large)"
+                    placeholder="Variation name (e.g., Hot, Large, Titan)"
                   />
                   <input
                     type="number"
