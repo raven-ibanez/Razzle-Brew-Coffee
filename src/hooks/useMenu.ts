@@ -19,6 +19,7 @@ export const useMenu = () => {
           variations (*),
           add_ons (*)
         `)
+        .order('sort_order', { ascending: true })
         .order('base_price', { ascending: true });
 
       if (itemsError) throw itemsError;
@@ -51,6 +52,7 @@ export const useMenu = () => {
           discountActive: item.discount_active || false,
           effectivePrice,
           isOnDiscount: isDiscountActive,
+          sortOrder: item.sort_order ?? 0,
           variations: item.variations?.map((v: any) => ({
             id: v.id,
             name: v.name,
@@ -80,8 +82,13 @@ export const useMenu = () => {
         };
       }) || [];
 
-      // Sort items by effective price (lowest to highest)
-      formattedItems.sort((a, b) => (a.effectivePrice || 0) - (b.effectivePrice || 0));
+      // Sort items: first by sort_order (explicit ordering), then by effective price
+      formattedItems.sort((a, b) => {
+        const sortA = (a as any).sortOrder ?? 0;
+        const sortB = (b as any).sortOrder ?? 0;
+        if (sortA !== sortB) return sortA - sortB;
+        return (a.effectivePrice || 0) - (b.effectivePrice || 0);
+      });
 
       setMenuItems(formattedItems);
       setError(null);

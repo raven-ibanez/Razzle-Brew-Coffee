@@ -23,6 +23,7 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, totalPrice, onBack }) =>
   const [dineInTime, setDineInTime] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('gcash');
   const [notes, setNotes] = useState('');
+  const [cashAmount, setCashAmount] = useState('');
 
   React.useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -35,6 +36,10 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, totalPrice, onBack }) =>
   }, [paymentMethods, paymentMethod]);
 
   const selectedPaymentMethod = paymentMethods.find(method => method.id === paymentMethod);
+  const isCash = selectedPaymentMethod?.name?.toLowerCase().includes('cash') ?? false;
+  const cashAmountNum = parseFloat(cashAmount) || 0;
+  const change = cashAmountNum - totalPrice;
+  const cashIsValid = !isCash || cashAmountNum >= totalPrice;
 
   const handleProceedToPayment = () => {
     setStep('payment');
@@ -84,8 +89,8 @@ ${cartItems.map(item => {
 
 TOTAL: ₱${totalPrice.toFixed(0)}
 
-PAYMENT: ${selectedPaymentMethod?.name || paymentMethod}
-Note: After sending this, please attach a screenshot of your payment receipt.
+PAYMENT: ${selectedPaymentMethod?.name || paymentMethod}${isCash ? `\nCash Tendered: ₱${cashAmountNum.toFixed(0)}\nChange: ₱${change.toFixed(0)}` : ''}
+${!isCash ? 'Note: After sending this, please attach a screenshot of your payment receipt.' : ''}
 
 ${notes ? `NOTES: ${notes}` : ''}
 
@@ -347,7 +352,7 @@ Thank you for choosing Razzle Brew! We're preparing your caffeine fix.
                   {paymentMethods.map((method) => (
                     <button
                       key={method.id}
-                      onClick={() => setPaymentMethod(method.id as PaymentMethod)}
+                      onClick={() => { setPaymentMethod(method.id as PaymentMethod); setCashAmount(''); }}
                       className={`w-full flex items-center justify-between p-6 rounded-2xl border transition-all duration-300 ${paymentMethod === method.id
                         ? 'border-razzle-gold bg-razzle-gold/10'
                         : 'border-white/5 bg-white/[0.02] hover:border-white/10'
@@ -374,7 +379,9 @@ Thank you for choosing Razzle Brew! We're preparing your caffeine fix.
                     <span className="text-[10px] font-bold tracking-widest uppercase">Important Notice</span>
                   </div>
                   <p className="text-xs text-gray-500 leading-relaxed font-medium">
-                    Order confirmation happens in Messenger. Please capture a screenshot of your successful transaction to attach to your message.
+                    {isCash
+                      ? 'Please prepare the exact amount or a larger bill. Enter the cash you will hand over above to see your change.'
+                      : 'Order confirmation happens in Messenger. Please capture a screenshot of your successful transaction to attach to your message.'}
                   </p>
                 </div>
               </div>
@@ -382,45 +389,97 @@ Thank you for choosing Razzle Brew! We're preparing your caffeine fix.
               <div className="lg:col-span-7">
                 {selectedPaymentMethod && (
                   <div className="glass-panel bg-white/[0.02] border-white/5 rounded-3xl p-8 h-full flex flex-col items-center justify-center text-center">
-                    <div className="relative group mb-8">
-                      <div className="absolute -inset-4 bg-razzle-gold/10 rounded-[40px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <div className="relative p-4 bg-white rounded-3xl overflow-hidden shadow-2xl">
-                        <img
-                          src={selectedPaymentMethod.qr_code_url}
-                          alt="Payment QR"
-                          className="w-48 h-48 md:w-64 md:h-64 object-contain"
-                          onError={(e) => {
-                            e.currentTarget.src = 'https://images.pexels.com/photos/8867482/pexels-photo-8867482.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop';
-                          }}
-                        />
+                    {isCash ? (
+                      <div className="flex flex-col items-center justify-center space-y-6">
+                        <div className="w-24 h-24 rounded-3xl bg-razzle-gold/10 border border-razzle-gold/20 flex items-center justify-center">
+                          <span className="text-5xl font-brand font-bold text-razzle-gold">₱</span>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-xs font-bold text-gray-500 uppercase tracking-[0.2em]">Pay with</p>
+                          <p className="text-2xl font-brand font-bold text-razzle-gold tracking-widest uppercase">{selectedPaymentMethod.name}</p>
+                        </div>
                       </div>
-                      <div className="mt-6 space-y-1">
-                        <p className="text-xs font-bold text-gray-500 uppercase tracking-[0.2em]">Scan to Pay</p>
-                        <p className="text-2xl font-brand font-bold text-razzle-gold tracking-widest uppercase">{selectedPaymentMethod.name}</p>
+                    ) : (
+                      <div className="relative group mb-8">
+                        <div className="absolute -inset-4 bg-razzle-gold/10 rounded-[40px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <div className="relative p-4 bg-white rounded-3xl overflow-hidden shadow-2xl">
+                          <img
+                            src={selectedPaymentMethod.qr_code_url}
+                            alt="Payment QR"
+                            className="w-48 h-48 md:w-64 md:h-64 object-contain"
+                            onError={(e) => {
+                              e.currentTarget.src = 'https://images.pexels.com/photos/8867482/pexels-photo-8867482.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop';
+                            }}
+                          />
+                        </div>
+                        <div className="mt-6 space-y-1">
+                          <p className="text-xs font-bold text-gray-500 uppercase tracking-[0.2em]">Scan to Pay</p>
+                          <p className="text-2xl font-brand font-bold text-razzle-gold tracking-widest uppercase">{selectedPaymentMethod.name}</p>
+                        </div>
                       </div>
-                    </div>
+                    )}
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-md">
-                      <div className="p-4 bg-white/5 border border-white/5 rounded-xl">
-                        <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1">Account Name</p>
-                        <p className="text-xs font-bold text-white truncate">{selectedPaymentMethod.account_name}</p>
+                    {!isCash && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-md">
+                        <div className="p-4 bg-white/5 border border-white/5 rounded-xl">
+                          <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1">Account Name</p>
+                          <p className="text-xs font-bold text-white truncate">{selectedPaymentMethod.account_name}</p>
+                        </div>
+                        <div className="p-4 bg-white/5 border border-white/5 rounded-xl">
+                          <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1">Account Number</p>
+                          <p className="text-xs font-bold text-white font-mono">{selectedPaymentMethod.account_number}</p>
+                        </div>
                       </div>
-                      <div className="p-4 bg-white/5 border border-white/5 rounded-xl">
-                        <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1">Account Number</p>
-                        <p className="text-xs font-bold text-white font-mono">{selectedPaymentMethod.account_number}</p>
-                      </div>
-                    </div>
+                    )}
 
                     <div className="mt-12 w-full max-w-sm space-y-6">
                       <div className="flex justify-between items-center px-4">
                         <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Amount Due</span>
                         <span className="text-4xl font-brand font-bold text-white">₱{totalPrice.toFixed(0)}</span>
                       </div>
+
+                      {isCash && (
+                        <div className="space-y-4">
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Cash Tendered</label>
+                            <div className="relative">
+                              <span className="absolute left-5 top-1/2 -translate-y-1/2 text-razzle-gold font-bold text-lg">₱</span>
+                              <input
+                                type="number"
+                                min={totalPrice}
+                                step="1"
+                                value={cashAmount}
+                                onChange={(e) => setCashAmount(e.target.value)}
+                                className="w-full bg-white/5 border border-white/10 rounded-2xl pl-10 pr-5 py-4 text-white text-lg font-bold focus:outline-none focus:border-razzle-gold/50 transition-all"
+                                placeholder={`${Math.ceil(totalPrice)}.00`}
+                              />
+                            </div>
+                          </div>
+
+                          {cashAmount !== '' && (
+                            <div className={`flex justify-between items-center px-5 py-4 rounded-2xl border ${change >= 0
+                              ? 'bg-emerald-500/10 border-emerald-500/30'
+                              : 'bg-red-500/10 border-red-500/30'
+                              }`}>
+                              <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Change</span>
+                              <span className={`text-2xl font-brand font-bold ${change >= 0 ? 'text-emerald-400' : 'text-red-400'
+                                }`}>
+                                {change >= 0 ? `₱${change.toFixed(0)}` : 'Insufficient'}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
                       <button
                         onClick={handlePlaceOrder}
-                        className="w-full bg-razzle-gold text-razzle-dark py-6 rounded-2xl hover:bg-white transition-all duration-500 font-bold text-[10px] md:text-sm tracking-widest md:tracking-[0.3em] uppercase shadow-2xl shadow-razzle-gold/20 transform hover:-translate-y-1"
+                        disabled={!cashIsValid}
+                        className={`w-full py-6 rounded-2xl font-bold text-[10px] md:text-sm tracking-widest md:tracking-[0.3em] uppercase shadow-2xl transform transition-all duration-500 ${cashIsValid
+                          ? 'bg-razzle-gold text-razzle-dark hover:bg-white shadow-razzle-gold/20 hover:-translate-y-1'
+                          : 'bg-white/5 text-gray-600 cursor-not-allowed border border-white/5'
+                          }`}
                       >
-                        Send Receipt via Messenger
+                        {isCash ? 'Place Order' : 'Send Receipt via Messenger'}
                       </button>
                     </div>
                   </div>
